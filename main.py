@@ -4,9 +4,8 @@ import time
 import tkinter as tk
 import cv2
 import config
-import debug
-import img_function as predict
-import img_math
+import predict
+import commonMath
 from threading import Thread
 from tkinter import ttk
 from tkinter.filedialog import *
@@ -141,7 +140,10 @@ class Surface(ttk.Frame):
 
         filename = config.get_name()
         if filename.any():
-            debug.img_show(filename)
+            if filename.dtype == "float32":
+                filename = filename.astype(np.uint8)
+            cv2.imshow("img_show", filename)
+            cv2.waitKey(0)
 
     #摄像头功能未实现
     def from_vedio(self):
@@ -162,7 +164,7 @@ class Surface(ttk.Frame):
         self.thread_run = False
         self.pic_path = askopenfilename(title="选择识别图片", filetypes=[("jpg图片", "*.jpg"), ("png图片", "*.png")])
         if self.pic_path:
-            img_bgr = img_math.img_read(self.pic_path)
+            img_bgr = commonMath.img_read(self.pic_path)
             first_img, oldimg = self.predictor.img_first_pre(img_bgr)
             self.imgtk = self.get_imgtk(img_bgr)
             self.image_ctl.configure(image=self.imgtk)
@@ -198,7 +200,7 @@ def close_window():
     if surface.thread_run:
         surface.thread_run = False
         surface.thread.join(2.0)
-    win.destroy()
+     
 
 
 if __name__ == '__main__':

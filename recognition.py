@@ -72,8 +72,8 @@ provinces = [
     "zh_yu1", "渝",
     "zh_yue", "粤",
     "zh_yun", "云",
-    "zh_zang", "浙",
-    "zh_zhe", "藏"
+    "zh_zang", "藏",
+    "zh_zhe", "浙"
 ]
 
 
